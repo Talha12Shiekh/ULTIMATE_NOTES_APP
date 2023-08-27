@@ -77,6 +77,8 @@ html {
 .text_note {
   display: grid;
   grid-template-rows: 7fr 1fr;
+  position: relative;
+  overflow: hidden;
 }
 
 .note_dates {
@@ -94,6 +96,11 @@ html {
 
 .option_dotes:hover {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.option_dotes div{
+  font-size: 2rem;
+  position: absolute;
 }
 
 .option_dotes img {
@@ -118,7 +125,7 @@ html {
 
 .menu_container div {
   color: var(--background);
-  padding: 5px;
+  padding: 9px;
   cursor: pointer;
   font-size: 1.1rem;
   align-items: center;
@@ -396,3 +403,23 @@ h3 {
   transform: scale(0.9);
 }
 
+.note_side_menu{
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  background-color: var(--accent);
+  left:100%;
+  transition: all 0.51s ease;
+}
+
+.left{
+  left: 0%;
+}
+
+.scale {
+  transform: scale(1) !important;
+}
+
+.not_scale{
+  transform: scale(0) !important;
+}
