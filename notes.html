@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes app</title>
+    <link rel="stylesheet" href="notes1.css" />
+    <script src="notes.js" defer></script>
+  </head>
+  <body>
+    <dialog class="modal">
+      <div class="top_text">
+        <div class="add_note_text">Add note</div>
+        <div class="center" onclick="CloseModal()">&times;</div>
+      </div>
+      <div class="inputs_container">
+        <div>
+          <h3>Title</h3>
+          <input type="text">
+        </div>
+        <div>
+          <h3>Description</h3>
+          <textarea></textarea>
+        </div>
+        <div>
+          <button id="add_btn">Add note</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="content_modal">
+      <div class="close_content_modal">&times;</div>
+      <div class="note_dates"></div>
+      <h1 class="notes_text"></h1>
+      <p class="note_description"></p>
+    </dialog>
+      
+    <div class="container">
+      <div class="note center notes_adding_note">
+        <div class="add_note center" onclick="openModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 15 15"><path fill="currentColor" fill-rule="evenodd" d="M8 2.75a.5.5 0 0 0-1 0V7H2.75a.5.5 0 0 0 0 1H7v4.25a.5.5 0 0 0 1 0V8h4.25a.5.5 0 0 0 0-1H8V2.75Z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="add_note_text">Add new note</div>
+      </div>
+    </div>
+
+    <div class="recover_notes">
+      <dialog class="recover_notes_container">
+        <h3>Recover notes</h3>
+        <div class="recover_notes">
+          
+        </div>
+      </dialog>
+      <button class="recover_btn">RECOVER NOTES</button>
+    </div>
+  </body>
+</html>
