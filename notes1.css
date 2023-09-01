@@ -74,6 +74,10 @@ html {
   border-radius: 10px;
 } */
 
+.cross{
+  font-size: 2rem;
+}
+
 .text_note {
   display: grid;
   grid-template-rows: 7fr 1fr;
@@ -88,10 +92,12 @@ html {
 }
 
 .option_dotes {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  aspect-ratio: 1;
   border-radius: 50%;
   cursor: pointer;
+  position: absolute;
+  right: 0;
 }
 
 .option_dotes:hover {
@@ -104,7 +110,7 @@ html {
 }
 
 .option_dotes img {
-  width: 20px;
+  width: 28px;
 }
 
 .menu {
@@ -355,11 +361,13 @@ h3 {
   border: none;
 }
 
-.recover_notes_container h3{
-  color: black;
-  font-size: 2rem;
-  text-align: center;
+.recover_notes_container input {
+  width: 100%;
+  padding: .5em;
   margin-bottom: 1rem;
+  font-size: 1.5em;
+  border: none;
+  border: 1px solid var(--text);
 }
 
 .recover_notes_container::-webkit-scrollbar-thumb{
@@ -413,13 +421,54 @@ h3 {
 }
 
 .left{
-  left: 0%;
+  left: 0% !important;
 }
 
-.scale {
-  transform: scale(1) !important;
+.hidden{
+  display: none;
+}
+.add_note_options{
+  height: 25px;
 }
 
-.not_scale{
-  transform: scale(0) !important;
+.search_option_dotes_container{
+  width: 40px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  position: absolute;
+  right: 0;
+  bottom: 6px;
 }
+
+.search_option_dotes_container:hover{
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.add_note_side_menu{
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  background-color: var(--accent);
+  left: 100%;
+  transition: all 0.51s ease;
+  top: 0;
+}
+
+.height{
+  height: 50%;
+}
+
+.search:hover,.Clear:hover{
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.font_increase{
+  font-size: 1.8rem;
+  color: white;
+}
+
