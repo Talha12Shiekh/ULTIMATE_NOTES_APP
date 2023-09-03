@@ -32,12 +32,20 @@ let modal = document.querySelector("[class='modal']"),
   recover_notes_input = document.querySelector(
     "[placeholder='Search Your notes']"
   ),
-  recover_items_container = document.querySelector("[id='recover_items_container']"),
-  single_recover_item = recover_items_container.getElementsByClassName("single_recover_note");
+  recover_items_container = document.querySelector(
+    "[id='recover_items_container']"
+  ),
+  single_recover_item = recover_items_container.getElementsByClassName(
+    "single_recover_note"
+  ),
+  searchModal = document.querySelector("[id='search_notes_dialog']"),
+  filter_notes = searchModal.querySelector("[class='filter_notes']");
+  filter_input = searchModal.querySelector("[id='filter_notes_input']"),
 
 recoverButton.onclick = () => showDialog(recoverModal, true);
 
 closeONOutsideClick(recoverModal);
+closeONOutsideClick(searchModal);
 
 const handleShowSideMenu = (element, important) => {
   let Sidebar = element.parentElement.parentElement.firstElementChild;
@@ -53,45 +61,62 @@ const handleShowSideMenu = (element, important) => {
   </div>`;
   }
 };
-const handleFilterNotes = (value,Filterarray,keyOfFilterELement) => {
+const handleFilterNotes = (value, Filterarray, keyOfFilterELement) => {
   let Filtervalue = value;
   let ArrayToSearch = Filterarray;
   let keyOfELement = keyOfFilterELement;
   return () => {
     ArrayToSearch.forEach((note) => {
-    let noteElement = document.querySelector(`[${keyOfELement}='${note.key}']`);
-    if(Filtervalue == ""){
-      noteElement.style.display = ""
-    }else{
-      if (note.title.includes(Filtervalue)) {
-        noteElement.style.display = ""
-      }else{
-        noteElement.style.display = "none"
+      let noteElement = document.querySelector(
+        `[${keyOfELement}='${note.key}']`
+      );
+      if (Filtervalue == "") {
+        noteElement.style.display = "";
+      } else {
+        if (note.title.toLowerCase().includes(Filtervalue.toLowerCase())) {
+          noteElement.style.display = "";
+        } else {
+          noteElement.style.display = "none";
+        }
       }
-    }
-  });
-  }
+    });
+  };
 };
 
-function debounce(fx,time){
+function debounce(fx, time) {
   let id = null;
   return () => {
-    if(!id){
-      id = setTimeout(fx,time)
-    }else{
+    if (!id) {
+      id = setTimeout(fx, time);
+    } else {
       clearTimeout(id);
     }
-  }
+  };
 }
 
-recover_notes_input.addEventListener("input",function(){
-  let filterRecoverNotes = handleFilterNotes(this.value,RECOVERED_NOTES,"data-recover-key");
-  let debounceRecoverNotes = debounce(filterRecoverNotes,1000)
-  debounceRecoverNotes()
+recover_notes_input.addEventListener("input", function () {
+  let filterRecoverNotes = handleFilterNotes(
+    this.value,
+    RECOVERED_NOTES,
+    "data-recover-key"
+  );
+  let debounceRecoverNotes = debounce(filterRecoverNotes, 1000);
+  debounceRecoverNotes();
+});
+
+filter_input.addEventListener("input",function () {
+  let filterSearchNotes = handleFilterNotes(
+    this.value,
+    notes,
+    "data-filter-key"
+  );
+  let debounceRecoverNotes = debounce(filterSearchNotes, 1000);
+  debounceRecoverNotes();
 })
 
 showNotes();
 showRecoverNotes();
+showFilterNotes()
 
 const openModal = () => showDialog(modal, true);
 
@@ -191,22 +216,32 @@ function handlePinNote(element) {
 function handleReadNote(element) {
   let findedNote = findNote(element);
 
-  notesDates.textContent = DateFormatter.format(findedNote.time);
-  notesText.textContent = findedNote.title;
-  notesDescription.textContent = findedNote.description;
-
-  showDialog(contentModal, true);
+  showReadedNoteContent(findedNote);
 }
 
-function openAddNoteSideMenu(element){
-  let addNoteSideBar = element.previousElementSibling.previousElementSibling.previousElementSibling;
-  addNoteSideBar.classList.toggle("left");
+function handleShowSearchModal(element){
+  showDialog(searchModal, true);
 
-  if(addNoteSideBar.classList.contains("left")){
-      element.innerHTML = `<div class="cross">&times;</div>`
-  }else{
-    element.innerHTML = `<img src="more.png" alt="Loading..." class="add_note_options">`
+  let elementToToggle = element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling
+
+  ToggleIcon(elementToToggle,element.parentElement)
+
+}
+
+function ToggleIcon(element,parent){
+  parent.classList.toggle("left");
+  if (parent.classList.contains("left")) {
+    element.innerHTML = `<div class="cross">&times;</div>`;
+  } else {
+    element.innerHTML = `<img src="more.png" alt="Loading..." class="add_note_options">`;
   }
+}
+
+function openAddNoteSideMenu(element) {
+  let addNoteSideBar =
+    element.previousElementSibling.previousElementSibling
+      .previousElementSibling;
+  ToggleIcon(element,addNoteSideBar);
 }
 
 function showNotes() {
@@ -221,7 +256,7 @@ function showNotes() {
 
   let addButton = `<div class="note center" style="overflow:hidden;">
   <div class="add_note_side_menu">
-  <div class="search center height font_increase"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="svg" viewBox="0 0 512 512"><path fill="currentColor" d="m410.3 231l11.3-11.3l-33.9-33.9l-62.1-62.1l-33.9-33.9l-11.3 11.3l-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2l199.2-199.2l22.6-22.7zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9l-78.2 23l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7l-14.4 14.5l-22.6 22.6l-11.4 11.3l33.9 33.9l62.1 62.1l33.9 33.9l11.3-11.3l22.6-22.6l14.5-14.5c25-25 25-65.5 0-90.5l-39.3-39.4c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>Search Notes</div>
+  <div class="search center height font_increase" onclick="handleShowSearchModal(this)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="svg" viewBox="0 0 512 512"><path fill="currentColor" d="m410.3 231l11.3-11.3l-33.9-33.9l-62.1-62.1l-33.9-33.9l-11.3 11.3l-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2l199.2-199.2l22.6-22.7zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9l-78.2 23l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7l-14.4 14.5l-22.6 22.6l-11.4 11.3l33.9 33.9l62.1 62.1l33.9 33.9l11.3-11.3l22.6-22.6l14.5-14.5c25-25 25-65.5 0-90.5l-39.3-39.4c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>Search Notes</div>
   <div class="Clear center height font_increase"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="svg" viewBox="0 0 448 512"><path fill="currentColor" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64s14.3 32 32 32h384c17.7 0 32-14.3 32-32s-14.3-32-32-32h-96l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32l21.2 339c1.6 25.3 22.6 45 47.9 45h245.8c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>Clear notes</div>
   </div>
     <div class="add_note center" onclick="openModal()">
@@ -272,6 +307,7 @@ function showNotes() {
     </div>
   </div>`;
     notesContainer.insertAdjacentHTML("beforeend", html);
+    showFilterNotes()
   });
 }
 
@@ -291,6 +327,36 @@ function handleRecoverNotes(element) {
   saveRecoverNotes();
   saveNotes();
 }
+
+function handleReadSearchedNotes(element){
+  let searchedKey = element.parentElement.parentElement.getAttribute("data-filter-key");
+  let findedNote = notes.find(note => note.key == searchedKey);
+  showReadedNoteContent(findedNote);
+}
+
+function showReadedNoteContent(findedNote){
+  notesDates.textContent = DateFormatter.format(findedNote.time);
+  notesText.textContent = findedNote.title;
+  notesDescription.textContent = findedNote.description;
+
+  showDialog(contentModal, true);
+  closeModal(searchModal)
+}
+
+function showFilterNotes(){
+  filter_notes.innerHTML = ""
+  notes?.forEach(({ title, key }) => {
+    filter_notes.innerHTML += `<div class="single_recover_note" data-filter-key=${key}>
+      <div><strong>Title: </strong>${
+        title.length > recoverNotesTitleLength.length
+          ? title.slice(0, recoverNotesTitleLength.length) + "..."
+          : title
+      }</div>
+      <div><button onclick="handleReadSearchedNotes(this)">Read</button></div>
+  </div>`;
+  });
+}
+
 
 function showRecoverNotes() {
   let LOCAL_RECOVER_NOTES = localStorage.getItem(RECOVER_NOTES_KEY);

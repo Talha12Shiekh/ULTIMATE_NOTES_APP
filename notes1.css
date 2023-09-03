@@ -107,6 +107,9 @@ html {
 .option_dotes div{
   font-size: 2rem;
   position: absolute;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 .option_dotes img {
@@ -471,4 +474,3 @@ h3 {
   font-size: 1.8rem;
   color: white;
 }
-
