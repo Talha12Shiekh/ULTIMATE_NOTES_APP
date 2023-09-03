@@ -47,7 +47,16 @@
     </div>
 
     <div class="recover_notes">
+      
       <dialog class="recover_notes_container">
+        <div class="top_text_container">
+          <div>
+            <h2>Recover notes</h2>
+          </div>
+          <div class="recover_modal_cross">
+            <span>&times;</span>
+          </div>
+        </div>
         <input type="text" placeholder="Search Your notes">
         <div class="recover_notes" id="recover_items_container">
           
@@ -57,9 +66,28 @@
     </div>
 
     <dialog class="recover_notes_container" id="search_notes_dialog">
+      <div class="top_text_container">
+        <div>
+          <h2>Search notes</h2>
+        </div>
+        <div class="search_modal_cross">
+          <span>&times;</span>
+        </div>
+      </div>
       <input type="text" placeholder="Search Your notes" id="filter_notes_input">
       <div class="filter_notes">
         
+      </div>
+    </dialog>
+
+    <dialog class="clear_notes_modal" open>
+      <div class="cross_container center">&times;</div>
+      <h3>Are you sure ?</h3>
+      <div class="clear_closing_cross">&times;</div>
+      <div class="confirmation_text">Do you really want to delete all notes ? This process cannot be undone</div>
+      <div class="btns_container">
+        <button>Cancel</button>
+        <button>Delete</button>
       </div>
     </dialog>
   </body>

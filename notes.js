@@ -41,6 +41,12 @@ let modal = document.querySelector("[class='modal']"),
   searchModal = document.querySelector("[id='search_notes_dialog']"),
   filter_notes = searchModal.querySelector("[class='filter_notes']");
   filter_input = searchModal.querySelector("[id='filter_notes_input']"),
+  recoverModalCross = recoverModal.querySelector("[class='recover_modal_cross']"),
+  searchModalCross = searchModal.querySelector("[class='search_modal_cross']"),
+
+  recoverModalCross.onclick = () => closeModal(recoverModal);
+  searchModalCross.onclick = () => closeModal(searchModal);
+
 
 recoverButton.onclick = () => showDialog(recoverModal, true);
 
@@ -100,7 +106,7 @@ recover_notes_input.addEventListener("input", function () {
     RECOVERED_NOTES,
     "data-recover-key"
   );
-  let debounceRecoverNotes = debounce(filterRecoverNotes, 1000);
+  let debounceRecoverNotes = debounce(filterRecoverNotes, 500);
   debounceRecoverNotes();
 });
 
@@ -110,7 +116,7 @@ filter_input.addEventListener("input",function () {
     notes,
     "data-filter-key"
   );
-  let debounceRecoverNotes = debounce(filterSearchNotes, 1000);
+  let debounceRecoverNotes = debounce(filterSearchNotes, 500);
   debounceRecoverNotes();
 })
 
@@ -256,8 +262,8 @@ function showNotes() {
 
   let addButton = `<div class="note center" style="overflow:hidden;">
   <div class="add_note_side_menu">
-  <div class="search center height font_increase" onclick="handleShowSearchModal(this)"><svg xmlns="http://www.w3.org/2000/svg" style="margin-right:15px;" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5q0-2.725 1.888-4.612T9.5 3q2.725 0 4.612 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16Zm0-2q1.875 0 3.188-1.313T14 9.5q0-1.875-1.313-3.188T9.5 5Q7.625 5 6.312 6.313T5 9.5q0 1.875 1.313 3.188T9.5 14Z"/></svg>Search Notes</div>
-  <div class="Clear center height font_increase"><svg style="margin-right:20px;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M3 23v-7q0-2.075 1.463-3.538T8 11h1V3q0-.825.588-1.413T11 1h2q.825 0 1.413.588T15 3v8h1q2.075 0 3.538 1.463T21 16v7H3Zm2-2h2v-3q0-.425.288-.713T8 17q.425 0 .713.288T9 18v3h2v-3q0-.425.288-.713T12 17q.425 0 .713.288T13 18v3h2v-3q0-.425.288-.713T16 17q.425 0 .713.288T17 18v3h2v-5q0-1.25-.875-2.125T16 13H8q-1.25 0-2.125.875T5 16v5Zm8-10V3h-2v8h2Z"/></svg>Clear notes</div>
+  <div class="search center height font_increase" onclick="handleShowSearchModal(this)" ><svg xmlns="http://www.w3.org/2000/svg" style="margin-right:15px;" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5q0-2.725 1.888-4.612T9.5 3q2.725 0 4.612 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16Zm0-2q1.875 0 3.188-1.313T14 9.5q0-1.875-1.313-3.188T9.5 5Q7.625 5 6.312 6.313T5 9.5q0 1.875 1.313 3.188T9.5 14Z"/></svg>Search Notes</div>
+  <div class="Clear center height font_increase" style="padding-right:25px;"><svg style="margin-right:20px;" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M3 23v-7q0-2.075 1.463-3.538T8 11h1V3q0-.825.588-1.413T11 1h2q.825 0 1.413.588T15 3v8h1q2.075 0 3.538 1.463T21 16v7H3Zm2-2h2v-3q0-.425.288-.713T8 17q.425 0 .713.288T9 18v3h2v-3q0-.425.288-.713T12 17q.425 0 .713.288T13 18v3h2v-3q0-.425.288-.713T16 17q.425 0 .713.288T17 18v3h2v-5q0-1.25-.875-2.125T16 13H8q-1.25 0-2.125.875T5 16v5Zm8-10V3h-2v8h2Z"/></svg>Clear notes</div>
   </div>
     <div class="add_note center" onclick="openModal()">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 15 15"><path fill="currentColor" fill-rule="evenodd" d="M8 2.75a.5.5 0 0 0-1 0V7H2.75a.5.5 0 0 0 0 1H7v4.25a.5.5 0 0 0 1 0V8h4.25a.5.5 0 0 0 0-1H8V2.75Z" clip-rule="evenodd"/></svg>
