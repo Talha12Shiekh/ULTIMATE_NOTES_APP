@@ -29,7 +29,10 @@
     </dialog>
 
     <dialog class="content_modal">
-      <div class="close_content_modal">&times;</div>
+      <div class="top_content_modal">
+        <div class="read_note_text">Read your note</div>
+        <div class="close_content_modal">&times;</div>
+      </div>
       <div class="note_dates"></div>
       <h1 class="notes_text"></h1>
       <p class="note_description"></p>
@@ -80,14 +83,14 @@
       </div>
     </dialog>
 
-    <dialog class="clear_notes_modal" open>
+    <dialog class="clear_notes_modal">
       <div class="cross_container center">&times;</div>
       <h3>Are you sure ?</h3>
       <div class="clear_closing_cross">&times;</div>
       <div class="confirmation_text">Do you really want to delete all notes ? This process cannot be undone</div>
       <div class="btns_container">
-        <button>Cancel</button>
-        <button>Delete</button>
+        <button class="clear_container_cancel_btn">Cancel</button>
+        <button class="clear_btn">Clear</button>
       </div>
     </dialog>
   </body>

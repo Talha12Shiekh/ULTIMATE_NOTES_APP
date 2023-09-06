@@ -295,6 +295,21 @@ html {
   transform: scale(0.9);
 }
 
+.top_content_modal{
+  width:100%;
+  height: 20%;
+  border-bottom: 2px solid black;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-inline:2em;
+}
+
+.top_content_modal .read_note_text{
+  font-size:2rem;
+  font-weight:bold;
+}
+
 .content_modal{
   width: 70%;
   height: 60%;
@@ -305,32 +320,30 @@ html {
   position: absolute;
   z-index: 99999999999999;
   border: 1px solid black;
-  padding: 1em;
   overflow-y: auto;
 }
 
-
-.content_modal div{
-  float: right;
+.content_modal .note_dates{
+  float:right;
+  padding:1em;
 }
 
 
-.content_modal div:first-child{
-  float: left;
-  font-size: 1.5rem;
+.content_modal div:first-child .close_content_modal{
+  font-size: 3rem;
   cursor: pointer;
   user-select: none;
 }
 .content_modal p{
   font-size: 1.2rem;
+  margin-left:1rem;
 }
-.content_modal h1,.content_modal div{
+.content_modal h1{
   margin-bottom: 1rem;
+  margin-top: 3rem;
+  margin-left:1rem
 }
 
-.content_modal h1{
-  margin-top: 3rem;
-}
 .recover_btn:disabled{
   background-color: grey;
 }
@@ -465,6 +478,10 @@ html {
   height: 50%;
 }
 
+.clear_btn:disabled{
+  background: grey !important;
+}
+
 .search:hover,.Clear:hover{
   background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
@@ -502,9 +519,15 @@ html {
 }
 
 .clear_notes_modal{
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0px 0px 9px 2px red;
+  overflow: hidden;
 }
+
+.clear_notes_modal::backdrop{
+  background-color: red;
+  opacity: .2;
+}
+
 .clear_notes_modal  h3{
   text-align: center;
   margin-bottom: 1rem;
@@ -534,6 +557,7 @@ html {
   position: absolute;
   right: 10px;
   font-size: 2rem;
+  top:0;
   cursor: pointer;
 }
 .btns_container button{
@@ -558,4 +582,26 @@ html {
   margin-inline: auto;
   text-align: center;
   padding-block: 2em;
+}
+
+@media screen and (max-width: 955px) {
+  .clear_notes_modal{
+    width:36vw;
+  }
+  .btns_container button {
+    font-size:1em;
+  }
+  .clear_notes_modal .confirmation_text{
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 690px) {
+  .clear_notes_modal{
+    width:55vw;
+  }
+}
+@media screen and (max-width: 450px) {
+  .clear_notes_modal{
+    width:70vw;
+  }
 }
