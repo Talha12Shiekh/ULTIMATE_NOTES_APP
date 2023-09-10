@@ -21,7 +21,6 @@ html {
 .container {
   height: 100vh;
   width: 100vw;
-  background-color: var(--background);
   display: grid;
   grid-template-columns: repeat(4, 20%);
   grid-template-rows: repeat(4, 1fr);
@@ -298,12 +297,27 @@ html {
 .top_content_modal{
   width:100%;
   height: 20%;
-  border-bottom: 2px solid black;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding-inline:2em;
 }
+
+.top_content_modal .heart_container{
+  width: 5%;
+  aspect-ratio: 1;
+  background-color:rgba(128, 128, 128, 0.334);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heart{
+  color: white;
+}
+
+
 
 .top_content_modal .read_note_text{
   font-size:2rem;
@@ -328,6 +342,16 @@ html {
   padding:1em;
 }
 
+.adding_note_toast{
+  background: var(--accent);
+  color: var(--background);
+}
+
+.edit_note_toast{
+  background-color: #60c20a;
+  color: var(--background);
+}
+
 
 .content_modal div:first-child .close_content_modal{
   font-size: 3rem;
@@ -349,7 +373,7 @@ html {
 }
 
 .recover_btn{
-  position: absolute;
+  position: fixed;
   right: 3rem;
   bottom: 2rem;
   padding: 1em;

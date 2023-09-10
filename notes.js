@@ -1,3 +1,4 @@
+
 let modal = document.querySelector("[class='modal']"),
   modalshown = false,
   title = document.querySelector("[type='text']"),
@@ -188,6 +189,8 @@ function handleDelete(element) {
   saveRecoverNotes();
   localStorage.setItem(LOCAL_NOTES, JSON.stringify(deletedNotes));
   showNotes();
+
+  showToast("Note deleted successfully !","red")
 }
 
 function findNote(element) {
@@ -218,6 +221,8 @@ function handleImportant(element) {
   findedNote.important = !findedNote.important;
 
   saveNotes();
+
+  showToast("Note marked as important !","#60c20a");
 }
 
 function handlePinNote(element) {
@@ -225,6 +230,8 @@ function handlePinNote(element) {
   findedNote.pinned = !findedNote.pinned;
 
   saveNotes();
+
+  showToast("Note pinned successfully !","#60c20a");
 }
 
 function handleReadNote(element) {
@@ -350,6 +357,8 @@ function handleRecoverNotes(element) {
 
   saveRecoverNotes();
   saveNotes();
+
+  showToast("Note Recovered successfully !","#60c20a")
 }
 
 function handleReadSearchedNotes(element){
@@ -412,6 +421,17 @@ function showRecoverNotes() {
   }
 }
 
+function showToast(text,background){
+  return Toastify({
+    text,
+    style:{
+      background,
+      fontWeight:"bold"
+    }
+  }).showToast();
+}
+
+
 addButton.addEventListener("click", () => {
   addButton.textContent = "Add note";
   AddNoteText.textContent = "Add note";
@@ -426,10 +446,13 @@ addButton.addEventListener("click", () => {
     };
     if (!isEditing) {
       notes.push(notesObject);
+      showToast("Note added successfully !","#7f0ce4")
     } else {
       notes[editIndex] = notesObject;
       isEditing = false;
+      showToast("Note edited successfully !","#60c20a")
     }
+
     saveNotes();
 
     title.value = "";
@@ -447,5 +470,7 @@ clear_btn.onclick = () => {
   RECOVERED_NOTES.length = 0;
   notes.length = 0;
   showNotes();
-  showRecoverNotes()
+  showRecoverNotes();
+
+  showToast("All notes cleared successfully !","#60c20a")
 }
