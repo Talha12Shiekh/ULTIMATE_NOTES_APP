@@ -47,9 +47,7 @@ let modal = document.querySelector("[class='modal']"),
   clear_notes_popup = document.querySelector("[class='clear_notes_modal']"),
   clear_closing_cross = clear_notes_popup.querySelector("[class='clear_closing_cross']"),
   clear_container_cancel_btn = clear_notes_popup.querySelector("[class='clear_container_cancel_btn']"),
-  clear_btn = clear_notes_popup.querySelector("[class='clear_btn']"),
-  heart = document.querySelector("[class='heart']");
-
+  clear_btn = clear_notes_popup.querySelector("[class='clear_btn']");
   
 
   recoverModalCross.onclick = () => closeModal(recoverModal);
@@ -79,21 +77,35 @@ const handleFilterNotes = (value, Filterarray, keyOfFilterELement) => {
   let Filtervalue = value;
   let ArrayToSearch = Filterarray;
   let keyOfELement = keyOfFilterELement;
+  let noMatch = true;
   return () => {
+
     ArrayToSearch.forEach((note) => {
       let noteElement = document.querySelector(
         `[${keyOfELement}='${note.key}']`
       );
       if (Filtervalue == "") {
         noteElement.style.display = "";
+        noMatch=false;
       } else {
         if (note.title.toLowerCase().includes(Filtervalue.toLowerCase())) {
           noteElement.style.display = "";
+          noMatch=false
         } else {
           noteElement.style.display = "none";
+
         }
       }
     });
+
+    if(noMatch){
+      ArrayToSearch.forEach(note => {
+        let noteElement = document.querySelector(
+          `[${keyOfELement}='${note.key}']`
+        );
+        noteElement.style.display = ""
+      })
+    }
   };
 };
 
@@ -118,6 +130,10 @@ recover_notes_input.addEventListener("input", function () {
   debounceRecoverNotes();
 });
 
+showNotes();
+showRecoverNotes();
+showFilterNotes()
+
 filter_input.addEventListener("input",function () {
   let filterSearchNotes = handleFilterNotes(
     this.value,
@@ -128,9 +144,6 @@ filter_input.addEventListener("input",function () {
   debounceRecoverNotes();
 })
 
-showNotes();
-showRecoverNotes();
-showFilterNotes()
 
 const openModal = () => showDialog(modal, true);
 
@@ -170,8 +183,6 @@ closeONOutsideClick(modal);
 function saveNotes() {
   localStorage.setItem(LOCAL_NOTES, JSON.stringify(notes));
   showNotes();
-
-
 }
 
 function saveRecoverNotes() {
@@ -181,16 +192,21 @@ function saveRecoverNotes() {
 }
 
 function handleDelete(element) {
-  let key =
-    element.parentElement.parentElement.parentElement.getAttribute("data-key");
-  let deletedNotes = notes.filter((note) => note.key !== key);
-  let recoveredNotes = notes.find((note) => note.key == key);
-  RECOVERED_NOTES.push(recoveredNotes);
-
-  saveRecoverNotes();
-  localStorage.setItem(LOCAL_NOTES, JSON.stringify(deletedNotes));
-  showNotes();
-
+    if(notes.length == 1) {
+      localStorage.removeItem(LOCAL_NOTES)
+      showNotes()
+      showFilterNotes();
+    }else{
+      let key =
+        element.parentElement.parentElement.parentElement.getAttribute("data-key");
+      let deletedNotes = notes.filter((note) => note.key !== key);
+      let recoveredNotes = notes.find((note) => note.key == key);
+      RECOVERED_NOTES.push(recoveredNotes);
+    
+      saveRecoverNotes();
+      localStorage.setItem(LOCAL_NOTES, JSON.stringify(deletedNotes));
+      showNotes();
+    }
   showToast("Note deleted successfully !","red")
 }
 
@@ -213,7 +229,6 @@ function handleEdit(element) {
   description.value = findedNOte.description;
   editIndex = editedIndex;
   isEditing = true;
-
   saveNotes();
 }
 
@@ -301,7 +316,7 @@ function showNotes() {
   </div>`;
   notesContainer.insertAdjacentHTML("afterbegin", addButton);
 
-  notes.forEach(({ title, description, key, time, important, pinned,liked }) => {
+  notes.forEach(({ title, description, key, time, important, pinned }) => {
 
     let html = `<div class="note text_note ${important ? "red" : ""} ${
       pinned ? "pinned" : ""
@@ -373,14 +388,15 @@ function showReadedNoteContent(findedNote){
   notesDates.textContent = DateFormatter.format(findedNote.time);
   notesText.textContent = findedNote.title;
   notesDescription.textContent = findedNote.description;
-  heart.className = findedNote.liked ? "red" : "heart";
 
   showDialog(contentModal, true);
   closeModal(searchModal)
 }
 
 function showFilterNotes(){
-  filter_notes.innerHTML = ""
+  filter_notes.innerHTML = "";
+  if(notes.length !== 0){
+
   notes?.forEach(({ title, key }) => {
     filter_notes.innerHTML += `<div class="single_recover_note" data-filter-key=${key}>
       <div>${
@@ -391,6 +407,10 @@ function showFilterNotes(){
       <div><button onclick="handleReadSearchedNotes(this)">Read</button></div>
   </div>`;
   });
+}else{
+  filter_notes.innerHTML = "<div style='font-size:2rem;'>Nothing to search !</div>"
+}
+
 }
 
 
@@ -435,16 +455,6 @@ function showToast(text,background){
 }
 
 
-function handleLikeNote(element){
-    element.children[0].children[0].classList.toggle("red");
-
-    let likedNoteTitle = element.parentElement.nextElementSibling.nextElementSibling
-    let findedNotetoLike = notes.find(note => note.title == likedNoteTitle.innerText);
-    findedNotetoLike.liked = !findedNotetoLike.liked;
-
-    saveNotes();
-}
-
 addButton.addEventListener("click", () => {
   addButton.textContent = "Add note";
   AddNoteText.textContent = "Add note";
@@ -485,6 +495,6 @@ clear_btn.onclick = () => {
   notes.length = 0;
   showNotes();
   showRecoverNotes();
-
+  showFilterNotes();
   showToast("All notes cleared successfully !","#60c20a")
 }
