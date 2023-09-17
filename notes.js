@@ -47,7 +47,8 @@ let modal = document.querySelector("[class='modal']"),
   clear_notes_popup = document.querySelector("[class='clear_notes_modal']"),
   clear_closing_cross = clear_notes_popup.querySelector("[class='clear_closing_cross']"),
   clear_container_cancel_btn = clear_notes_popup.querySelector("[class='clear_container_cancel_btn']"),
-  clear_btn = clear_notes_popup.querySelector("[class='clear_btn']");
+  clear_btn = clear_notes_popup.querySelector("[class='clear_btn']"),
+  heart = document.querySelector("[class='heart']");
 
   
 
@@ -300,7 +301,8 @@ function showNotes() {
   </div>`;
   notesContainer.insertAdjacentHTML("afterbegin", addButton);
 
-  notes.forEach(({ title, description, key, time, important, pinned }) => {
+  notes.forEach(({ title, description, key, time, important, pinned,liked }) => {
+
     let html = `<div class="note text_note ${important ? "red" : ""} ${
       pinned ? "pinned" : ""
     }" data-key=${key}>
@@ -371,6 +373,7 @@ function showReadedNoteContent(findedNote){
   notesDates.textContent = DateFormatter.format(findedNote.time);
   notesText.textContent = findedNote.title;
   notesDescription.textContent = findedNote.description;
+  heart.className = findedNote.liked ? "red" : "heart";
 
   showDialog(contentModal, true);
   closeModal(searchModal)
@@ -380,7 +383,7 @@ function showFilterNotes(){
   filter_notes.innerHTML = ""
   notes?.forEach(({ title, key }) => {
     filter_notes.innerHTML += `<div class="single_recover_note" data-filter-key=${key}>
-      <div><strong>Title: </strong>${
+      <div>${
         title.length > recoverNotesTitleLength.length
           ? title.slice(0, recoverNotesTitleLength.length) + "..."
           : title
@@ -408,7 +411,7 @@ function showRecoverNotes() {
     recoverButton.disabled = false;
     RECOVERED_NOTES.forEach(({ title, key }) => {
       RECOVER_NOTES_CONTAINER.innerHTML += `<div class="single_recover_note" data-recover-key=${key}>
-    <div><strong>Title: </strong>${
+    <div>${
       title.length > recoverNotesTitleLength.length
         ? title.slice(0, recoverNotesTitleLength.length) + "..."
         : title
@@ -432,6 +435,16 @@ function showToast(text,background){
 }
 
 
+function handleLikeNote(element){
+    element.children[0].children[0].classList.toggle("red");
+
+    let likedNoteTitle = element.parentElement.nextElementSibling.nextElementSibling
+    let findedNotetoLike = notes.find(note => note.title == likedNoteTitle.innerText);
+    findedNotetoLike.liked = !findedNotetoLike.liked;
+
+    saveNotes();
+}
+
 addButton.addEventListener("click", () => {
   addButton.textContent = "Add note";
   AddNoteText.textContent = "Add note";
@@ -443,6 +456,7 @@ addButton.addEventListener("click", () => {
       time: Date.now(),
       important: false,
       pinned: false,
+      liked:false
     };
     if (!isEditing) {
       notes.push(notesObject);
