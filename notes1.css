@@ -630,10 +630,12 @@ html {
 @media screen and (max-width: 690px) {
   .clear_notes_modal{
     width:55vw;
+    height: 45vh;
   }
 }
 @media screen and (max-width: 450px) {
   .clear_notes_modal{
     width:70vw;
+    height: 45vh;
   }
 }
