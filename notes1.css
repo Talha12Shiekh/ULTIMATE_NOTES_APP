@@ -137,6 +137,8 @@ html {
   cursor: pointer;
   font-size: 1.1rem;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .svg {
@@ -271,13 +273,13 @@ html {
 @media screen and (max-width: 880px) {
   .modal {
     width: 45vw;
-    height: 85vh;
+    height: 70vh;
   }
 }
 @media screen and (max-width: 690px) {
   .modal {
     width: 70vw;
-    height: 85vh;
+    height: 70vh;
   }
 }
 
