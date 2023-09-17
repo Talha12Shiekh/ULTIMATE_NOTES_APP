@@ -192,11 +192,11 @@ function saveRecoverNotes() {
 }
 
 function handleDelete(element) {
-    if(notes.length == 1) {
-      localStorage.removeItem(LOCAL_NOTES)
-      showNotes()
-      showFilterNotes();
-    }else{
+    // if(notes.length == 1) {
+    //   localStorage.removeItem(LOCAL_NOTES)
+    //   showNotes()
+    //   showFilterNotes();
+    // }else{
       let key =
         element.parentElement.parentElement.parentElement.getAttribute("data-key");
       let deletedNotes = notes.filter((note) => note.key !== key);
@@ -206,7 +206,8 @@ function handleDelete(element) {
       saveRecoverNotes();
       localStorage.setItem(LOCAL_NOTES, JSON.stringify(deletedNotes));
       showNotes();
-    }
+      showFilterNotes()
+    // }
   showToast("Note deleted successfully !","red")
 }
 

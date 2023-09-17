@@ -271,11 +271,13 @@ html {
 @media screen and (max-width: 880px) {
   .modal {
     width: 45vw;
+    height: 85vh;
   }
 }
 @media screen and (max-width: 690px) {
   .modal {
-    width: 61vw;
+    width: 70vw;
+    height: 85vh;
   }
 }
 
@@ -536,7 +538,7 @@ html {
 
 .clear_notes_modal{
   width: 30vw;
-  height: 55vh;
+  height: 65vh;
   background-color: var(--background);
   position: absolute;
   top: 50%;
